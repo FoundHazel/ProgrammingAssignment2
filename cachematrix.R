@@ -4,18 +4,16 @@
 ## makeCacheMatrix shall create a matrix oject that can inverse itself
 
 makeCacheMatrix <- function(x = matrix()) {
-
-  inv = NULL
-  set = function(y) {
-    
-    x <<- y
-    inv <<- NULL
-  }
-  get = function() x
-  setinv = function(inverse) inv <<- inverse 
-  getinv = function() inv
-  list(set=set, get=get, setinv=setinv, getinv=getinv)
-
+    invMatrix  <- NULL
+    setMatrix <- function(y) {
+        x<<-y
+        invMatrix <<- NULL
+    }
+    getMatrix <- function() x
+    setInverse <- function(inverse) invMatrix <<- inverse
+    getInverse <- function() invMatrix 
+    list(setMatrix = setMatrix, getMatrix = getMatrix, 
+         setInverse = setInverse,getInverse = getInverse)
 }
 
 
@@ -23,21 +21,34 @@ makeCacheMatrix <- function(x = matrix()) {
 # calculated if so then it shall return from cache
 # else shall calculate the inverse using the solve function
 # and sets it in the cache using setinv function
+
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-  inv = x$getinv()
+   ## Return a matrix that is the inverse of 'x'  
+  invMatrix <- x$getInverse()
   
   # if the inverse has already been calculated
-  if (!is.null(inv)){
-      message("fetching inverted matrix")
-    return(inv)
-  }
-   
-  mat.data = x$get()
-  inv = solve(mat.data, ...)
+    if(!is.null(invMatrix)) {
+        message("getting Cached Invertible Matrix")
+        return(invMatrix)
+    }
+    
+    MatrixData <- x$getMatrix()
+    invMatrix <- solve(MatrixData, ...)
   
   # sets the value of the inverse in the cache
-  x$setinv(inv)
+    x$setInverse(invMatrix)
   
-  return(inv)
+    return(invMatrix)
 }
+
+
+##Testing
+Test_Matrix<-matrix(1:4, 2, 2)
+Test_Matrix
+
+CacheMatrix_Test_1 <- makeCacheMatrix(Test_Matrix)
+CacheMatrix_Test_1$getMatrix()
+CacheMatrix_Test_1$getInverse()
+
+cacheSolve(CacheMatrix_Test_1)
+cacheSolve(CacheMatrix_Test_1)
