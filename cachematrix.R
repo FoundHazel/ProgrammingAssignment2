@@ -49,3 +49,13 @@ cacheSolve <- function(x, ...) {
     return(invMatrix)
 }
 
+##Testing
+Test_Matrix<-matrix(1:4, 2, 2)
+Test_Matrix
+
+CacheMatrix_Test_1 <- makeCacheMatrix(Test_Matrix)
+CacheMatrix_Test_1$getMatrix()
+CacheMatrix_Test_1$getInverse()
+
+cacheSolve(CacheMatrix_Test_1)
+cacheSolve(CacheMatrix_Test_1)
